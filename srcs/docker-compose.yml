@@ -1,0 +1,74 @@
+# version: "3.9"
+#version 넣으면 에러 문구 출력됨
+
+services:
+  mariadb:
+    container_name: mariadb
+    image: mariadb:42
+    build:
+      context: ./requirements/mariadb
+    volumes:
+      - mariadb_volume:/var/lib/mysql
+    env_file:
+      - ./.env
+    networks:
+      - inception
+    restart: always
+
+  wordpress:
+    depends_on:
+      - mariadb
+    container_name: wordpress
+    image: wordpress:42
+    build:
+      context: ./requirements/wordpress
+    volumes:
+      - wordpress_volume:/var/www/html
+    env_file:
+      - ./.env
+    networks:
+      - inception
+    restart: always
+
+  nginx:
+    depends_on:
+      - wordpress
+    container_name: nginx
+    image: nginx:42
+    build:
+      context: ./requirements/nginx
+    volumes:
+      - wordpress_volume:/var/www/html
+    env_file:
+      - ./.env
+    ports:
+      - "443:443"
+    networks:
+      - inception
+    restart: always
+
+
+
+
+volumes:
+  mariadb_volume:
+    name: mariadb_volume
+    driver: local
+    driver_opts:
+      type: "none"
+      device: "/home/taehkwon/data/mariadb"
+      # device: "/Users/rose/Desktop/hm/taehkwon/data/mariadb"
+      o: "bind"
+  wordpress_volume:
+    name: wordpress_volume
+    driver: local
+    driver_opts:
+      type: "none"
+      device: "/home/taehkwon/data/wordpress"
+      # device: "/Users/rose/Desktop/hm/taehkwon/data/wordpress"
+      o: "bind"
+
+networks:
+  inception:
+    name: inception
+    driver: bridge
