@@ -56,16 +56,14 @@ volumes:
     driver: local
     driver_opts:
       type: "none"
-      device: "/home/taehkwon/data/mariadb"
-      # device: "/Users/rose/Desktop/hm/taehkwon/data/mariadb"
+      device: "/home/minjeon2/data/mariadb"
       o: "bind"
   wordpress_volume:
     name: wordpress_volume
     driver: local
     driver_opts:
       type: "none"
-      device: "/home/taehkwon/data/wordpress"
-      # device: "/Users/rose/Desktop/hm/taehkwon/data/wordpress"
+      device: "/home/minjeon2/data/wordpress"
       o: "bind"
 
 networks:
