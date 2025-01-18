@@ -1,4 +1,4 @@
-# version: "3.9"
+# version: "5.2"
 #version 넣으면 에러 문구 출력됨
 
 services:
